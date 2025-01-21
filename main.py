@@ -26,5 +26,8 @@ dp.register_inline_handler(start_registration,)
 def create_base():
     asyncio.run(create_tables())
 
+
+
+
 if __name__ == "__main__":
     executor.start_polling(dp, skip_updates=True)
