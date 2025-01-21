@@ -12,6 +12,7 @@ from Bot.settings.config_bot import *
 #from Bot.Keybords.registration import *
 #from Bot.Keybords.welcome import *
 from Bot.Hadlers.welcome import *
+from Bot.Hadlers.registration import *
 
 logging.basicConfig(level=logging.INFO)
 
@@ -19,6 +20,7 @@ bot = Bot(token=API)
 dp = Dispatcher(bot, storage=MemoryStorage())
 #dp.include_router()
 dp.register_message_handler(start,)
+dp.register_inline_handler(start_registration,)
 
 
 def create_base():

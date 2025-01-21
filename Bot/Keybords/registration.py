@@ -1,6 +1,3 @@
-
-
-
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 registration_kb = InlineKeyboardMarkup(
