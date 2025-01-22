@@ -14,32 +14,33 @@ async def Autorisation(call):
     await call.answer()
 
 #Подключение к базе на Добавление нового пользователя!
-async def Registration_new_user(message):
-    #серия вопросов - ответов
-    await message.answer("Введите имя:")
-    await User.username.set()
+async def Registration_new_user(call):
+    #серия вопросов - ответов!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!не пошло....
+    await call.message.answer("Введите имя:")
+    await call.answer()
+    await User.username
 
 async def registration_new_user_password(message,state):
     await state.update_data(username = message.text)
-    date = await state.get_data()
+    data = await state.get_data()
     await message.answer(f"Введите пароль:")
-    await User.password.set()
+    await User.password
 
 async def registration_new_user_age(message,state):
     await state.update_data(password=message.text)
-    date = await state.get_data()
+    data = await state.get_data()
     await message.answer(f"Введите ваш возраст:")
-    await User.age.set()
+    await User.age
 
-async def create_new_user(message,date,state):
-    await User.create(username= date.username,age= date.age,password= date.password) #user_id =user_id,
+async def create_new_user(message,data,state):
+    await User.create(username= data.username,age= data.age,password= data.password) #user_id =user_id,
     await state.finish()
 
 
 def register_handlers_registration(dp:Dispatcher):
-    dp.register_message_handler(Autorisation, text="Authorisation")
-    dp.register_message_handler(Registration_new_user, text="Registration")
-    dp.register_message_handler(registration_new_user_password,state= User.username)
-    dp.register_message_handler(registration_new_user_age, state= User.password)
-    dp.register_message_handler(create_new_user, state= User.age)
+    dp.register_callback_query_handler(Autorisation, text='Authorisation')
+    dp.register_callback_query_handler(Registration_new_user, text='Registration')
+    dp.register_callback_query_handler(registration_new_user_password,state= User.username)
+    dp.register_callback_query_handler(registration_new_user_age, state= User.password)
+    dp.register_callback_query_handler(create_new_user, state= User.age)
 
