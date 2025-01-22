@@ -12,7 +12,7 @@ async def about_us(message):
     await message.answer("Какой-то текст о нас....")
 
 async def start_regstration(message):
-    await message.answer("",reply_markup=registration_kb)
+    await message.answer("1111", reply_markup=registration_kb)
 
 
 def register_handlers_welcome(dp:Dispatcher):

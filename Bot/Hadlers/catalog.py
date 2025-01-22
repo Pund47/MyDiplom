@@ -12,8 +12,8 @@ async def prod (message):
 
 
 
-def register_handlers_catalog(dp:Dispatcher):
-    dp.register_message_handler(oformit_zakaz,commands=["Оформить заказ"])
-    dp.register_message_handler(del_position, text="Удалить позицию")
-    dp.register_message_handler(add_position, text="Добавить")
-    dp.register_message_handler(back_on_head,text="На главную")
+#def register_handlers_catalog(dp:Dispatcher):
+ #   dp.register_message_handler(oformit_zakaz,commands=["Оформить заказ"])
+  #  dp.register_message_handler(del_position, text="Удалить позицию")
+   # dp.register_message_handler(add_position, text="Добавить")
+    #dp.register_message_handler(back_on_head,text="На главную")
