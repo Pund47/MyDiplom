@@ -7,6 +7,16 @@ from Bot.settings.config_bot import create_tables
 from Create_Bot import dp,Bot
 
 logging.basicConfig(level=logging.INFO)
+logging.root.setLevel(logging.WARNING)
+
+# Создание обработчика для основного лога
+file_handler = logging.FileHandler("logs.log", encoding="utf-8")
+
+
+
+
+
+
 #Импорты хэндлеров!
 from Bot.Hadlers import welcome,basket,registration,catalog
 

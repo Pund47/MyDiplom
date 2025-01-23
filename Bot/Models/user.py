@@ -12,16 +12,17 @@ class User(Base):
     password = Column(sqlalchemy.INTEGER, nullable=False)
 
 
-    def __init__(self,username,password,age):
+    def __init__(self,username,password,age,user_id):
         self.password = password
         self.username = username
         self.age      = age
+        self.user_id  = user_id
 
     @classmethod
     async def create (cls,user_id,username,age,password):
         async with async_session() as session:
             existing_user = await session.execute(select(cls).where(cls.user_id == user_id))
-            #existing_user = existing_user.scalars()
+            existing_user = existing_user.scalars().all()
             if len(existing_user) != 0:
                 return existing_user
             new_user = cls(user_id = user_id,password = password,username = username,age=age )

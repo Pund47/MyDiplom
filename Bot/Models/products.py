@@ -12,5 +12,13 @@ class Product(Base):
     price     = Column(sqlalchemy.INTEGER)
     img       = Column(sqlalchemy.String)
     basket_id = Column(sqlalchemy.INTEGER,ForeignKey("basket_id"))
+    category  = Column(sqlalchemy.String)
 
+    def __init__(self,name,id,price,img,basket_id,category):
+        self.name      = name
+        self.id        = id
+        self.price     = price
+        self.img       = img
+        self.basket_id = basket_id
+        self.category = category
 #Base.metadata.create_all(bind=engine)
