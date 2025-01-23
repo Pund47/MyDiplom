@@ -15,8 +15,8 @@ async def about_us(message):
 async def start_regstration(call):
     await call.message.answer("1111", reply_markup=registration_kb)
 
-async def run_to_catalog(message):
-    await message.answer("Добро пожаловать в каталог",reply_markup= catalog_kb)
+async def run_to_catalog(call):
+    await call.message.answer("Добро пожаловать в каталог",reply_markup= common_catalog)
 
 
 

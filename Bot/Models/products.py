@@ -1,8 +1,6 @@
 import sqlalchemy
-from sqlalchemy import Column, Integer, String, ForeignKey
-from sqlalchemy.orm import foreign
-
-from Bot.settings.config_bot import Base
+from sqlalchemy import Column, select, ForeignKey
+from Bot.settings.config_bot import Base, async_session
 
 
 class Product(Base):
@@ -11,7 +9,7 @@ class Product(Base):
     id        = Column(sqlalchemy.INTEGER, primary_key=True, autoincrement=True)
     price     = Column(sqlalchemy.INTEGER)
     img       = Column(sqlalchemy.String)
-    basket_id = Column(sqlalchemy.INTEGER,ForeignKey("basket_id"))
+    basket_id = Column(sqlalchemy.INTEGER,ForeignKey("products.basket_id"))
     category  = Column(sqlalchemy.String)
 
     def __init__(self,name,id,price,img,basket_id,category):
@@ -22,3 +20,11 @@ class Product(Base):
         self.basket_id = basket_id
         self.category = category
 #Base.metadata.create_all(bind=engine)
+
+    @classmethod
+    async def find_by(cls, category, name, id):
+        async with async_session() as session:
+            existing_prod = await session.execute(select(cls).where(cls.category == category))
+            existing_prod = existing_prod.scalars().all()
+            await session.commit()
+            return existing_prod

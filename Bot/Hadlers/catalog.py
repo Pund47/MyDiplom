@@ -3,17 +3,19 @@ from Create_Bot import dp
 from  Bot.Keybords.catalog import  *
 
 
-#@dp.message_handler(text="")
-async def prod (message):
-     with open ('Images/креветка.jpg',"rb") as img:
-        await message.answer_photo (img,"Текст Описания", reply_markup= catalog_kb)
+
+async def prod (call):
+     with open ('Bot/Images/креветка.jpg',"rb") as img:
+        await call.message.answer_photo (img,f"Красотища")
+        await call.answer()
+#async def start_registration(message):
+#    await message.answer(f"Welcome, {message.from_user.username}",reply_markup= registration_kb)
+#await call.message.answer(f"Welcome",reply_markup=start_kb)
+#    await call.answer()
 
 
-
-
-
-#def register_handlers_catalog(dp:Dispatcher):
- #   dp.register_message_handler(oformit_zakaz,commands=["Оформить заказ"])
-  #  dp.register_message_handler(del_position, text="Удалить позицию")
-   # dp.register_message_handler(add_position, text="Добавить")
-    #dp.register_message_handler(back_on_head,text="На главную")
+def register_handlers_catalog(dp:Dispatcher):
+   dp.register_callback_query_handler(prod,text="Shrims")
+   #dp.register_message_handler(del_position, text="Удалить позицию")
+   #dp.register_message_handler(add_position, text="Добавить")
+   #dp.register_message_handler(back_on_head,text="На главную")
