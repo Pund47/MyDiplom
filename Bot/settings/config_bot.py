@@ -13,7 +13,7 @@ class Base(DeclarativeBase):
 
 async def create_tables():
     async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all(engine))
+        await conn.run_sync(Base.metadata.create_all(bind=engine))
 
 async def delete_tables():
     async with engine.begin() as conn:

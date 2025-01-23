@@ -29,7 +29,7 @@ registration.register_handlers_registration(dp)
 
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(create_tables())
+    #loop.run_until_complete(create_tables())
 
     #asyncio.run(create_tables())
     executor.start_polling(dp, skip_updates=True,loop=loop)

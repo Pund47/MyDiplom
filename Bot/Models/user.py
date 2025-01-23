@@ -25,7 +25,7 @@ class User(Base):
             existing_user = existing_user.scalars().all()
             if len(existing_user) != 0:
                 return existing_user
-            new_user = cls(user_id = user_id,password = password,username = username,age=age )
+            new_user = cls(*args)
             session.add(new_user)
             await session.commit()
             return new_user
