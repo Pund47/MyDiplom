@@ -1,16 +1,15 @@
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+#from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from Bot.Models.products import *
+
 #Нужно утроить перебор данных из Database для формирования Кнопок
 # Варианты отображения каталога?
-list_prod = []
+
 
 #Product.find_by(**data)
 
 
-catalog_kb = InlineKeyboardMarkup(row_width=3)
-for prod in list_prod:
-   catalog_kb.insert(InlineKeyboardButton(text=text, callback_data=data))
+
 
 common_catalog = InlineKeyboardMarkup(
     inline_keyboard=[
@@ -23,7 +22,24 @@ common_catalog = InlineKeyboardMarkup(
     ]
 )
 
-#await call.message.answer("Случайный порядок в три ряда?", reply_markup=markup)
+#################################################################################################################
+list_prod = []
+list_prod = Product.find_by("shellfish")
+shellfish_kb = InlineKeyboardMarkup(row_width=3)
+for prod in list_prod:
+   shellfish_kb.insert(InlineKeyboardButton(text=f"{prod.name} , цена: {prod.price} {prod.img}" , callback_data=prod.id))
+
+#################################################################################################################
+
+list_shrims = Product.find_by("Shrims")
+
+shrims_kb = InlineKeyboardMarkup(
+    inline_keyboard=[
+        [InlineKeyboardButton() ]
+    ]
+)
+#################################################################################################################
+
 
 
 

@@ -22,9 +22,17 @@ class Product(Base):
 #Base.metadata.create_all(bind=engine)
 
     @classmethod
-    async def find_by(cls, category, name, id):
+    async def find_by(cls, category):
         async with async_session() as session:
             existing_prod = await session.execute(select(cls).where(cls.category == category))
             existing_prod = existing_prod.scalars().all()
             await session.commit()
             return existing_prod
+
+    @classmethod
+    async def find_by_id(cls, id):
+        async with async_session() as session:
+            found_prod = await session.execute(select(cls).where(cls.id == id))
+            found_prod = found_prod.scalars().all()
+            await session.commit()
+            return found_prod
