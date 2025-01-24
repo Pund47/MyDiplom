@@ -25,8 +25,21 @@ class User(Base):
             existing_user = existing_user.scalars().all()
             if len(existing_user) != 0:
                 return existing_user
-            new_user = cls(*args)
+            new_user = cls(user_id = user_id,username= username, age= age,password = password)
             session.add(new_user)
             await session.commit()
             return new_user
+
+    @classmethod
+    async def find_by_id(cls, user_id):
+        async with async_session() as session:
+            existing_user = await session.execute(select(cls).where(cls.user_id == user_id))
+            existing_user = existing_user.scalars().all()
+            if len(existing_user) != 0:
+                await session.commit()
+                return existing_user
+            else:
+                await session.commit()
+                return None
+
 

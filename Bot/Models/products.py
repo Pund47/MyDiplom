@@ -19,7 +19,7 @@ class Product(Base):
         self.img       = img
         self.basket_id = basket_id
         self.category = category
-#Base.metadata.create_all(bind=engine)
+
 
     @classmethod
     async def find_by(cls, category):
