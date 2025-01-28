@@ -1,5 +1,5 @@
 import sqlalchemy
-from sqlalchemy import Column, select, false
+from sqlalchemy import Column, select
 
 from Bot.settings.config_bot import Base, async_session
 
@@ -77,7 +77,6 @@ class User(Base):
 
             if existing_user:
                 # Изменяем атрибут существующего продукта
-                print(atr_tochange)
                 setattr(existing_user, atr_tochange, new_val)  # Изменяем указанный атрибут
                 await session.commit()  # Подтверждаем изменения
                 return True  # Возвращаем результат успешного изменения

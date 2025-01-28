@@ -8,7 +8,7 @@ class Product(Base):
     name      = Column(sqlalchemy.Text)
     id        = Column(sqlalchemy.INTEGER, primary_key=True, autoincrement=True)
     price     = Column(sqlalchemy.INTEGER)
-    img       = Column(sqlalchemy.String)
+    img       = Column(sqlalchemy.String) #BLOB
     count     = Column(sqlalchemy.INTEGER)
     category  = Column(sqlalchemy.String)
 
