@@ -37,13 +37,6 @@ class Product(Base):
             await session.commit()
             return found_prod
 
-#    @classmethod
-#    async def find_max_id(cls):
-#        async with async_session() as session:
-#            max_id = await session.execute(select(func.max(cls.id )))
-#            max_id = max_id.scalars().first()
-#            return max_id
-
     @classmethod
     async def create(cls, name, price, img, count, category):  # Добавлен параметр id
         async with async_session() as session:

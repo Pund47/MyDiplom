@@ -1,5 +1,5 @@
 import sqlalchemy
-from sqlalchemy import Column, select
+from sqlalchemy import Column, select, func
 
 from Bot.settings.config_bot import Base, async_session
 
@@ -49,3 +49,14 @@ class Baskets(Base):
             else:
                 print("basket_id not found")  # Обработка случая, когда пользователь не найден
                 return False  # Возвращаем результат, если пользователь не найден
+
+    @classmethod
+    async def create(cls, user_id, product_id, quantity):  # Добавлен параметр id
+        async with async_session() as session:
+            id = 0
+            max_id = await session.execute(select(func.max(cls.basket_id)))
+            max_id = max_id.scalars().first() or 0  # Обработка случая, когда max_id может быть None
+            new_prod = cls(basket_id=max_id + 1, user_id=user_id, product_id=product_id, quantity=quantity)
+            session.add(new_prod)
+            await session.commit()
+            return True
