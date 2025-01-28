@@ -1,5 +1,5 @@
 import asyncio
-from aiogram import Bot, Dispatcher, executor, types
+from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from Bot.settings.config_bot import *
 

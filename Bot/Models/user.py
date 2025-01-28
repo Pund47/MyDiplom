@@ -1,5 +1,5 @@
 import sqlalchemy
-from sqlalchemy import Column, select
+from sqlalchemy import Column, select, false
 
 from Bot.settings.config_bot import Base, async_session
 
@@ -10,6 +10,8 @@ class User(Base):
     username = Column(sqlalchemy.Text)
     age      = Column(sqlalchemy.INTEGER)
     password = Column(sqlalchemy.INTEGER, nullable=False)
+    status_admin = Column(sqlalchemy.Boolean, default=False)
+    status_block = Column(sqlalchemy.Boolean, default=False)
 
 
     def __init__(self,username,password,age,user_id):
@@ -41,5 +43,30 @@ class User(Base):
             else:
                 await session.commit()
                 return None
+
+    @classmethod
+    async def full_list(cls):
+        async with async_session() as session:
+            full_list_user = await session.execute(select(cls))
+            full_list_user = full_list_user.scalars().all()
+            return full_list_user
+
+    @classmethod
+    async def dell_by_id(cls, user_id):
+        async with async_session() as session:
+            result = await session.execute(select(cls).where(cls.user_id == user_id))
+            existing_user = result.scalars().first()  # Получаем первого пользователя, если он существует
+
+            if existing_user:
+                await session.delete(existing_user)  # Удаляем пользователя
+                await session.commit()  # Подтверждаем изменения
+                return True  # Возвращаем результат успешного удаления
+            else:
+                print("User not found")  # Обработка случая, когда пользователь не найден
+                return False  # Возвращаем результат, если пользователь не найден
+
+
+
+
 
 

@@ -1,27 +1,77 @@
 from aiogram import types, Dispatcher
-from Create_Bot import dp
-from  Bot.Keybords.catalog import  *
+from aiogram.dispatcher.filters import Text
 from  Bot.Keybords.welcome import *
-
+from Bot.Models.products import *
 async def back_to_start(call):
     await call.message.answer(f"Welcome",reply_markup=start_kb)
     await call.answer()
 
 
-async def prod (call):
-     with open ('Bot/Images/креветка.jpg',"rb") as img:
-        await call.message.answer_photo (img,f"Красотища")
-        await call.answer()
+async def prod (call,state):
+
+     list_prod = []
+     categor = call.data.split("prod_")[1]
+     list_prod = await Product.find_by(categor)
+    #
+
+     data = await state.get_data()
+     current_limit = 0
+     limit = data.get("limit", 2)
+     current_limit = data.get("current_limit",0)
+     message_ids = data.get("message_ids",[])
+
+     for prod in list_prod[current_limit: limit]:
+        fk_prod = InlineKeyboardMarkup()
+        fk_prod.add(InlineKeyboardButton(text="Добавить в корзину", callback_data=f"add_{prod.id}"), )
+        fk_prod.add(InlineKeyboardButton(text="Далее", callback_data=f"next_page_{categor}"), )
+            
+
+        with open('Bot/Images/креветка.jpg', "rb") as img:
+           await call.message.answer_photo(img, f"{prod.name} , цена: {prod.price} {prod.img}",reply_markup=fk_prod)
+
+           message_ids.append(call.message.message_id)
+
+     await state.update_data({"message_ids":message_ids, "current_limit":current_limit+2, "limit":limit+2})
+async def next_page (call,state):
+    data = await state.get_data()
+    print(data.get("message_ids"))
+    print(data.get("chat_ids"))
+    print(call.message.chat.id)
+#   for ids in data.get("message_ids"):
+#        await call.bot.delete_message(chat_id=call.message.chat.id, message_id=ids)
+
+    message_ids = []
+    list_prod = []
+    categor = call.data.split("_")[-1]
+    list_prod = await Product.find_by(categor)
+    limit = data.get("limit", 2)
+    current_limit = data.get("current_limit", 0)
+    print(current_limit,limit)
+    for prod in list_prod[current_limit: limit]:
+        fk_prod = InlineKeyboardMarkup()
+        fk_prod.add(InlineKeyboardButton(text="Добавить в корзину", callback_data=f"add_{prod.id}"), )
+        fk_prod.add(InlineKeyboardButton(text="Далее", callback_data=f"next_page_{categor}"), )
+        with open('Bot/Images/креветка.jpg', "rb") as img:
+            await call.message.answer_photo(img, f"{prod.name} , цена: {prod.price} {prod.img}", reply_markup=fk_prod)
+            message_ids.append(call.message.message_id)
+    await state.update_data({"message_ids": message_ids, "current_limit": current_limit + 2, "limit": limit})
+
+
+
+
+
 #Добавить вывод списка по 5 наименований с картинками?
 
 
 
 
-
-
 def register_handlers_catalog(dp:Dispatcher):
-   dp.register_callback_query_handler(prod,text="Shrimps")
+
+   dp.register_callback_query_handler(prod,Text(startswith="prod_") )# Фильтр по префиксу
    dp.register_callback_query_handler(back_to_start, text="back")
-   #dp.register_message_handler(del_position, text="Удалить позицию")
-   #dp.register_message_handler(add_position, text="Добавить")
-   #dp.register_message_handler(back_on_head,text="На главную")
+   dp.register_callback_query_handler(next_page, Text(startswith="next_page"))
+   dp.register_callback_query_handler(back_to_start, text="back")
+
+
+
+

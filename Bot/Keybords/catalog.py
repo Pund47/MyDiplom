@@ -1,6 +1,6 @@
 #from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from Bot.Models.products import *
+
 
 #Нужно утроить перебор данных из Database для формирования Кнопок
 # Варианты отображения каталога?
@@ -14,11 +14,13 @@ from Bot.Models.products import *
 common_catalog = InlineKeyboardMarkup(
     inline_keyboard=[
 
-         [InlineKeyboardButton(text="Креветки",callback_data="Shrimps")],
-         [InlineKeyboardButton(text="Молюски",callback_data="shellfish")],
-         [InlineKeyboardButton(text="Рыба",callback_data="fish")],
-         [InlineKeyboardButton(text="Икра",callback_data="caviar")],
+         [InlineKeyboardButton(text="Креветки",callback_data="prod_shrimps")],
+         [InlineKeyboardButton(text="Молюски",callback_data="prod_shellfish")],
+         [InlineKeyboardButton(text="Рыба",callback_data="prod_fish")],
+         [InlineKeyboardButton(text="Икра",callback_data="prod_caviar")],
          [InlineKeyboardButton(text="Назад",callback_data="back")]
+        # [InlineKeyboardButton(text="Доавить Новую", callback_data="new_prod")]
+
     ]
 )
 
@@ -37,8 +39,7 @@ common_catalog = InlineKeyboardMarkup(
 #    shrimps_kb.insert(InlineKeyboardButton(text=f"{shrimps.name} , цена: {shrimps.price} {shrimps.img}", callback_data=shrimps.id))
 
 
-
-#    shrims_kb = InlineKeyboardMarkup(
+#shrims_kb = InlineKeyboardMarkup(
 #        inline_keyboard=[
 #            [InlineKeyboardButton(text=f"{shrims.name} , цена: {shrims.price} {shrims.img}" , callback_data=shrims.id) ]
 #    ]
