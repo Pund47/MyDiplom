@@ -5,7 +5,7 @@ API = "7595050434:AAG5uOSuKS_pRXmfcg6X_9SJemSmx9LYlp4"
 ADMIN_ID = 5288495744
 list_of_category = ["shrimps", "shellfish" , "fish" , "caviar"]
 list_of_atr_productions_to_make_change = ["name","price","img","count","category"]
-
+list_of_atr_users_to_make_change = ["username","user_id","age","password","status_admin","status_block"]
 
 engine = create_async_engine('sqlite+aiosqlite:///my_db.db')
 async_session = async_sessionmaker(engine, expire_on_commit=False)

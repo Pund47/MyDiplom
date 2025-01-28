@@ -57,6 +57,44 @@ async def deel_from_base(message,state):
     result = await User.dell_by_id(**data)
     await message.answer(f"Успешно: {result}")
 
+##############
+
+async def change_by_id_user(call,state):
+    await call.message.answer("Введите user_id:")
+    await state.set_state("find_user_for_change")
+    await call.answer()
+
+async def choice_to_change_user(message, state):
+    await state.update_data(user_id=message.text) #Получаем по чему искать продукт на изменение.
+    keyb_select_to_change_user = InlineKeyboardMarkup()
+    for atr in list_of_atr_users_to_make_change:
+        keyb_select_to_change_user.add(InlineKeyboardButton(text=f"{atr}", callback_data=f"atr:{atr}"))
+    await message.answer(f"Выберите что нужно изменить:", reply_markup=keyb_select_to_change_user)
+    await state.set_state("set_atr_to_change_user")
+
+async def set_new_value_user(call, state):
+    atr_to_change = call.data.split(":")[1]
+    await state.update_data(atr_tochange=atr_to_change)
+    await call.message.answer(f"Введите новое значение:")
+    await state.set_state("set_new_val_user")
+
+
+async def oper_with_base_user (message, state):
+    await state.update_data(new_val=message.text)
+    data = await state.get_data()
+    result_mod_prod = await User.change_by_id_user(**data)
+    await message.answer(f"Изменения внесены успешно: {result_mod_prod}")
+
+
+
+
+
+
+
+
+
+
+
 ####################################################################################################################
 async def start_admin_Products(call):
     await call.message.answer(f"Welcome", reply_markup=admin_panel_products)
@@ -182,10 +220,22 @@ def register_handlers_admin(dp:Dispatcher):
     dp.register_callback_query_handler(full_list, text="Users_list")
     dp.register_callback_query_handler(registration_new_user, text='add_new_user')
     dp.register_callback_query_handler(dell_by_id,text="dell_by_id")
+
+    dp.register_callback_query_handler(change_by_id_user, text="change_by_id_user")
+    dp.register_message_handler(choice_to_change_user, state="find_user_for_change")#
+    dp.register_callback_query_handler(set_new_value_user, state="set_atr_to_change_user")
+    dp.register_message_handler(oper_with_base_user, state="set_new_val_user")
+
+
     dp.register_message_handler(registration_new_user_password, state="user_name")
     dp.register_message_handler(registration_new_user_age, state="set_password")
     dp.register_message_handler(create_new_user, state="set_age")
     dp.register_message_handler(deel_from_base, state="set_id")
+
+
+
+
+
 ######################################users######################################################
 
 ######################################product######################################################

@@ -12,6 +12,7 @@ admin_panel_users = InlineKeyboardMarkup(
     inline_keyboard=[
         [InlineKeyboardButton(text="Вывести список зарегистрированных", callback_data="Users_list")],
         [InlineKeyboardButton(text="Добавить нового", callback_data="add_new_user")],
+        [InlineKeyboardButton(text="Изменить по id", callback_data="change_by_id_user")],
         [InlineKeyboardButton(text="Удалить по id", callback_data="dell_by_id")]
     ]
 )
