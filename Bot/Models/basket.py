@@ -27,7 +27,7 @@ class Baskets(Base):
     @classmethod
     async def find_by_id_basket(cls, basket_id):
         async with async_session() as session:
-            existing_basket = await session.execute(select(cls).where(cls.user_id == basket_id))
+            existing_basket = await session.execute(select(cls).where(cls.basket_id == basket_id))
             existing_basket = existing_basket.scalars().all()
             if len(existing_basket) != 0:
                 await session.commit()
@@ -60,3 +60,16 @@ class Baskets(Base):
             session.add(new_prod)
             await session.commit()
             return True
+
+    @classmethod
+    async def find_by_user_id_basket(cls, user_id):
+        print(user_id)
+        async with async_session() as session:
+            try:
+                existing_basket = await session.execute(select(cls).where(cls.user_id == user_id))
+                existing_basket = existing_basket.scalars().all()
+                return existing_basket if existing_basket else None
+            except Exception as e:
+                # Обработка исключений
+                print(f"Ошибка при получении корзины: {e}")
+                return None
