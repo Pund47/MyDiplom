@@ -117,7 +117,8 @@ async def next_page(call: types.CallbackQuery, state: FSMContext):
 async def add_to_basket(call: types.CallbackQuery, state: FSMContext):
     try:
         # Пытаемся удалить предыдущие сообщения
-        await call.bot.delete_message(chat_id=call.message.chat.id, message_id=[call.message.message_id - 1,call.message.message_id - 2])
+        await call.bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id - 1)
+        await call.bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id - 1)
     except Exception as e:
         # Если кнопка уже удалены, то продолжаем выполнение кода
         pass
@@ -139,7 +140,7 @@ async def find_and_add(message: types.Message, state: FSMContext):
         # Update state with user input and user ID
         await state.update_data(quantity=message.text, user_id=message.from_user.id)
         data = await state.get_data()
-
+        print(data)
         # Create a new basket entry
         result_mod_prod = await Baskets.create(
             user_id=data['user_id'],
