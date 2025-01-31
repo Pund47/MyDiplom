@@ -1,5 +1,6 @@
 import sqlalchemy
 from sqlalchemy import Column, select, func
+from Bot.Models.user import *
 
 from Bot.settings.config_bot import Base, async_session
 
@@ -63,9 +64,10 @@ class Baskets(Base):
 
     @classmethod
     async def find_by_user_id_basket(cls, user_id):
-        print(user_id)
+        #print(user_id)
         async with async_session() as session:
             try:
+                #user_byer = User.find_by_id(user_id)
                 existing_basket = await session.execute(select(cls).where(cls.user_id == user_id))
                 existing_basket = existing_basket.scalars().all()
                 return existing_basket if existing_basket else None

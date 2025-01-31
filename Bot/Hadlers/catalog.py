@@ -140,7 +140,7 @@ async def find_and_add(message: types.Message, state: FSMContext):
         # Update state with user input and user ID
         await state.update_data(quantity=message.text, user_id=message.from_user.id)
         data = await state.get_data()
-        print(data)
+        #print(data)
         # Create a new basket entry
         result_mod_prod = await Baskets.create(
             user_id=data['user_id'],
@@ -171,15 +171,15 @@ async def oformit_zakaz(message: types.Message, state: FSMContext):
    # await message.reply("Второе - прячем клавиатуру после одного нажатия", reply_markup=kb_zak.greet_kb2)
     """Handler to place an order."""
     try:
-        # Fetch all products in the user's basket
-        zakaz = await Baskets.find_by_user_id_basket(user_id=message.from_user.id)
-        print(message.from_user.id)
-        # Display each product in the basket
+
+        zakaz = await Baskets.find_by_user_id_basket(user_id=message.chat.id)
+
+
         for prod in zakaz:
             print(prod)
             await message.answer(f"{prod.user_id}, цена: {prod.basket_id}, количество: {prod.product_id}")
 
-        # Notify the user about successful order placement
+
         await message.answer("Поздравляем, заказ успешно оформлен.")
 
     except Exception as e:
@@ -189,13 +189,9 @@ async def oformit_zakaz(message: types.Message, state: FSMContext):
 async def handle_oformlenie(callback_query: types.CallbackQuery, state: FSMContext):
     """Callback handler for 'Оформить заказ'."""
     try:
-        # Acknowledge the callback query
+
         await callback_query.answer()
 
-        # Debug message to confirm the handler is triggered
-        #print("Оформить заказ button clicked!")
-
-        # Call the order placement function
         await oformit_zakaz(callback_query.message, state)
     except Exception as e:
         await callback_query.message.answer(f"Произошла ошибка: {e}")
